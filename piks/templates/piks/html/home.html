@@ -5,14 +5,27 @@
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>home</title>
-    <link rel="stylesheet" href="{% static 'piks/css/style.css' %}" title="main" type="text/css" />
-    
+    <link rel="stylesheet" href="{% static 'fontawesome/css/all.css' %}" title="main" type="text/css" />
+    <link rel="stylesheet" href="{% static 'bootstrap/bootstrap.css' %}" title="main" type="text/css" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" title="main" type="text/css" />
   </head>
   <body>
-    <h1>This is Home Page {{nm}}</h1>
+    <h1 class="bg-primary">This is Home Page {{nm}}</h1>
+    <i class="fas fa-adjust"></i>
+    <i class="fas fa-adjut"></i>
+    <h1 class="bg-warning">This is Home Page {{nm}}</h1>
     <h2><a href="{% url 'home' %}">Home Page</a></h2>
     <h2><a href="admin/">Admin Page</a></h2>
+    <div class="info" id="info"></div>
+    <i class="fas fa-address-book"></i>
+    <div class="outer clickable">
+      ok osm bro
+    </div>
     
-    <script src="{% static 'piks/js/script.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static 'js/script.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static 'fontawesome/js/all.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static 'bootstrap/bootstrap.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static 'bootstrap/poper.js' %}" type="text/javascript" charset="utf-8"></script>
+    <script src="{% static 'bootstrap/jquery.js' %}" type="text/javascript" charset="utf-8"></script>
   </body>
 </html>
