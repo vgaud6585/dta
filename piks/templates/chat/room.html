@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
+            font-family: 'Poppins', sans-serif; height: 100vh; display: flex; align-items: center; justify-content: center;
+        }
+        .chat-card {
+            width: 450px; background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(15px);
+            border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.2); overflow: hidden;
+        }
+        .chat-header { padding: 20px; background: rgba(255,255,255,0.1); color: white; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        #display-messages { height: 400px; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; }
+        .msg { margin-bottom: 10px; padding: 10px 15px; border-radius: 15px; max-width: 80%; font-size: 0.9rem; }
+        .sent { background: #00d2ff; color: white; align-self: flex-end; border-bottom-right-radius: 2px; }
+        .received { background: rgba(255,255,255,0.9); color: #333; align-self: flex-start; border-bottom-left-radius: 2px; }
+        .footer { padding: 20px; }
+        .input-group { background: white; border-radius: 30px; padding: 5px; }
+        input { border: none !important; outline: none !important; padding-left: 15px !important; }
+    </style>
+</head>
+<body>
+    <div class="chat-card">
+        <div class="chat-header d-flex justify-content-between">
+            <span><b>ChatHub</b></span>
+            <small>{{ request.user.username }} | <a href="/accounts/logout/" class="text-white">Exit</a></small>
+        </div>
+        <div id="display-messages"></div>
+        <div class="footer">
+            <form id="post-form" class="input-group">
+                {% csrf_token %}
+                <input type="text" id="message" class="form-control" placeholder="Type..." autocomplete="off">
+                <button type="submit" class="btn btn-primary rounded-circle">></button>
+            </form>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        const user = "{{ request.user.username }}";
+        function loadMsg() {
+            $.get("/getMessages/", function(data) {
+                $("#display-messages").empty();
+                data.messages.forEach(m => {
+                    let cls = m.user__username == user ? "sent" : "received";
+                    $("#display-messages").append(`<div class="msg ${cls}"><b>${m.user__username}:</b><br>${m.content}</div>`);
+                });
+                var d = document.getElementById("display-messages"); d.scrollTop = d.scrollHeight;
+            });
+        }
+        setInterval(loadMsg, 1000);
+        $("#post-form").submit(function(e) {
+            e.preventDefault();
+            $.post("/send/", {message: $("#message").val(), csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val()}, function() {
+                $("#message").val('');
+            });
+        });
+    </script>
+</body>
+</html>
