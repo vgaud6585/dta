@@ -9,6 +9,6 @@ class Message(models.Model):
     class Meta:
         ordering = ['timestamp']
 # Create your models here.
-class User(models.Model):
-   usr_age = models.IntegerField()
-   usr_image = models.ImageField(upload_to='images/')
+class UserRec(models.Model):
+   usr_name = models.CharField(max_length=150)
+   usr_pass = models.CharField(max_length=150)

@@ -2,12 +2,15 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .models import Message
+from .models import Message, UserRec
 
 def signup(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
+        
         if form.is_valid():
+            stu = UserRec(usr_name = form.cleaned_data['username'], usr_pass = form.cleaned_data['password1'])
+            stu.save()
             form.save()
             return redirect('login')
     else:
